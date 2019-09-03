@@ -79,7 +79,7 @@ def convert_to_goouc(course, paper_info_list):
         paper_name = paper_info.get('title')
         paper_questions_groups = paper_info.get('groups')
 
-        file_path = os.path.join(dir_path, paper_name + '.xls')
+        file_path = os.path.join(dir_path, paper_name + '.xlsx')
         if True:
             workbook = xlsxwriter.Workbook(file_path)
             # 仅处理单选题
@@ -90,8 +90,8 @@ def convert_to_goouc(course, paper_info_list):
 
             # 写入文件
             worksheet = workbook.add_worksheet('Sheet1')
-            worksheet.write_row(('题型', '难度', '题目问题', '正确答案', '选项A', '选项B', '选项C', '选项D', '选项E', '选项F', '讲解'))
-            for question in question_filter:
+            worksheet.write_row(0, 0, ('题型', '难度', '题目问题', '正确答案', '选项A', '选项B', '选项C', '选项D', '选项E', '选项F', '讲解'))
+            for index, question in enumerate(question_filter):
                 title = question.get('title')
                 options = question.get('options')
                 row = ('单选题', 5,
@@ -104,7 +104,7 @@ def convert_to_goouc(course, paper_info_list):
                        ([o.get('text') for o in options if "F" == o.get('value').upper()] or list(['']))[0],
                        ''
                        )
-                worksheet.write_row(row)
+                worksheet.write_row(index + 1, 0, row)
             workbook.close()
             pass
 

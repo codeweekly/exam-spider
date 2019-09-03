@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from formats import convert_to_pkapp
+from formats import convert_to_pkapp, convert_to_goouc
 from sources import ExamSourceApi
 
 SESSION_ID = 'XXXXXX'
@@ -20,6 +20,6 @@ if __name__ == '__main__':
         # 试卷列表
         paper_info_list = [source.get_paper_info(paper.get('id')) for paper in paper_list]
         # 处理科目
-        convert_to_pkapp(course, paper_info_list)
+        convert_to_goouc(course, paper_info_list)
     # 生成成功
     print('生成成功，请查看output文件夹')
