@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 输出格式
 import os
+from abc import ABC, abstractmethod
 from functools import reduce
 
 import xlsxwriter
@@ -17,6 +18,21 @@ def _mkdir(sub_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
     return dir_path
+
+
+def print_screen(course, paper_info_list):
+    """
+    打印到屏幕
+    :param course:
+    :param paper_info_list:
+    :return:
+    """
+    course_name = course.get('name')
+    print("============ {} ============".format(course_name))
+    for paper_info in paper_info_list:
+        print(paper_info)
+
+    print("============================")
 
 
 def convert_to_pkapp(course, paper_info_list):
@@ -51,13 +67,25 @@ def convert_to_pkapp(course, paper_info_list):
             for index, question in enumerate(question_filter):
                 title = question.get('title')
                 options = question.get('options')
-                row = (title,
-                       ([o.get('text') for o in options if "A" == o.get('value').upper()] or list(['']))[0],
-                       ([o.get('text') for o in options if "B" == o.get('value').upper()] or list(['']))[0],
-                       ([o.get('text') for o in options if "C" == o.get('value').upper()] or list(['']))[0],
-                       ([o.get('text') for o in options if "D" == o.get('value').upper()] or list(['']))[0],
-                       question.get('answer')[0]
-                       )
+                q_type = question.get('type')
+                if 'single' == q_type:
+                    row = (title,
+                           ([o.get('text') for o in options if "A" == o.get('value').upper()] or list(['']))[0],
+                           ([o.get('text') for o in options if "B" == o.get('value').upper()] or list(['']))[0],
+                           ([o.get('text') for o in options if "C" == o.get('value').upper()] or list(['']))[0],
+                           ([o.get('text') for o in options if "D" == o.get('value').upper()] or list(['']))[0],
+                           question.get('answer')[0]
+                           )
+                    pass
+                if 'multiple' == q_type:
+                    print(question)
+                    pass
+                if 'text' == q_type:
+                    print(question)
+                    pass
+                if 'input' == q_type:
+                    print(question)
+                    pass
                 _write_xls_row(worksheet, index + 1, row)
             workbook.save(file_path)
             pass
@@ -115,3 +143,14 @@ def convert_to_anki():
     :return:
     """
     pass
+
+
+class AbstractParser(ABC):
+    @abstractmethod
+    def process(self):
+        pass
+
+
+class GooucParser(AbstractParser):
+    def process(self):
+        pass

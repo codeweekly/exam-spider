@@ -8,6 +8,17 @@ class ExamSourceApi:
         self.session_id = session_id
         self.cookies = dict(sessionid=self.session_id)
 
+    def check_alive(self):
+        """
+        检查是否可用
+        :return:
+        """
+        resp = requests.get('https://sdjrzk.xuanyun.tech/api/auth/user/current/', cookies=self.cookies)
+        if resp.ok:
+            json_data = resp.json()
+            return json_data.get('id')
+        return None
+
     def get_course_list(self):
         """
         获取科目列表
