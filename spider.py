@@ -3,7 +3,7 @@
 from formats import convert_to_pkapp, convert_to_goouc, print_screen
 from sources import ExamSourceApi
 
-SESSION_ID = 'p4a6adgl8hmyneun339x61iyz8ibhwfg'
+SESSION_ID = 'vfq0ivk2f20d25bhr3v744ncdh1ls16e'
 
 if __name__ == '__main__':
     source = ExamSourceApi(session_id=SESSION_ID)
