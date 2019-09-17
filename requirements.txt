@@ -2,3 +2,4 @@ requests
 xlrd
 xlwt
 xlsxwriter
+better_exceptions
