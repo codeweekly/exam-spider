@@ -3,3 +3,4 @@ xlrd
 xlwt
 xlsxwriter
 better_exceptions
+beautifulsoup4

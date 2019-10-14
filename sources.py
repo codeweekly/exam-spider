@@ -3,55 +3,19 @@
 import requests
 
 
-class ExamSourceApi:
-    def __init__(self, session_id):
-        self.session_id = session_id
-        self.cookies = dict(sessionid=self.session_id)
+class AlitripApi:
 
-    def check_alive(self):
+    def get_country_list(self, page_no):
         """
-        检查是否可用
+        获取城市列表
         :return:
         """
-        resp = requests.get('https://sdjrzk.xuanyun.tech/api/auth/user/current/', cookies=self.cookies)
+        resp = requests.get('http://hotel.alitrip.com/area.htm?domestic=1&enName=&page=' + str(page_no))
         if resp.ok:
-            json_data = resp.json()
-            return json_data.get('id')
+            return resp.content
         return None
 
-    def get_course_list(self):
-        """
-        获取科目列表
-        :return:
-        """
-        resp = requests.get('https://sdjrzk.xuanyun.tech/api/course/course/?is_active=true', cookies=self.cookies)
-        if resp.ok:
-            json_data = resp.json()
-            return json_data.get('results')
-        return None
 
-    def get_paper_list(self, course_id):
-        """
-        获取试卷列表
-        :param course_id:
-        :return:
-        """
-        resp = requests.get('https://sdjrzk.xuanyun.tech/api/exam/paper/for_course/?id={}'.format(course_id),
-                            cookies=self.cookies)
-        if resp.ok:
-            json_data = resp.json()
-            return json_data.get('course').get('exam_papers')
-        return None
-
-    def get_paper_info(self, paper_id):
-        """
-        获取试卷信息
-        :param paper_id: 试卷id
-        :return:
-        """
-        resp = requests.get('https://sdjrzk.xuanyun.tech/api/exam/paper/{id}/'.format(id=paper_id),
-                            cookies=self.cookies)
-        if resp.ok:
-            json_data = resp.json()
-            return json_data.get('content_object')
-        return None
+def _tr_mapper(tr):
+    td_list = tr.find_all('td')
+    return tuple([x.text for x in td_list])
